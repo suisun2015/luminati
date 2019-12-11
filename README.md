@@ -1,5 +1,6 @@
 # luminati
 Fork from github.com/elph/luminati
+
 A go library to use luminati.io proxy service. Personal project just to do something meaningful while trying to learn
 a little bit of golang
 

@@ -1,5 +1,5 @@
 # luminati
-
+Fork from github.com/elph/luminati
 A go library to use luminati.io proxy service. Personal project just to do something meaningful while trying to learn
 a little bit of golang
 
@@ -16,7 +16,7 @@ These instructions will get you a copy of the project up and running on your loc
 Just import like any other go library
 
 ```
-import "github.com/elph/luminati"
+import "github.com/suisun2015/luminati"
 ```
 
 ### Using it

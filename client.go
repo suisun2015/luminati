@@ -44,7 +44,9 @@ func (c *Client) Do(request *http.Request) (resp *http.Response, err error) {
 }
 
 func (c *Client) setProxy(client *http.Client, request *http.Request) {
-	proxyURL, _ := url.Parse("http://" + c.host + ":" + strconv.Itoa(c.port) + " " + request.URL.String())
+//	proxyURL, _ := url.Parse("http://" + c.host + ":" + strconv.Itoa(c.port) + " " + request.URL.String())
+	// request.URL.String() already has target URL, so removed this part from proxyURL 
+	proxyURL, _ := url.Parse("http://" + c.host + ":" + strconv.Itoa(c.port))
 	client.Transport = &http.Transport{Proxy: http.ProxyURL(proxyURL)}
 
 	login := c.username + "-session-" + c.SessionID

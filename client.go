@@ -1,6 +1,7 @@
 package luminati
 
 import (
+	"crypto/tls"
 	"encoding/base64"
 	"math/rand"
 	"net/http"
@@ -44,15 +45,18 @@ func (c *Client) Do(request *http.Request) (resp *http.Response, err error) {
 }
 
 func (c *Client) setProxy(client *http.Client, request *http.Request) {
-//	proxyURL, _ := url.Parse("http://" + c.host + ":" + strconv.Itoa(c.port) + " " + request.URL.String())
-	// request.URL.String() already has target URL, so removed this part from proxyURL 
-	proxyURL, _ := url.Parse("http://" + c.host + ":" + strconv.Itoa(c.port))
-	client.Transport = &http.Transport{Proxy: http.ProxyURL(proxyURL)}
-
-	login := c.username + "-session-" + c.SessionID
+	// proxyURL, _ := url.Parse("http://" + c.host + ":" + strconv.Itoa(c.port) + " " + request.URL.String())
+	login := c.username //+ "-session-" + c.SessionID
 	auth := login + ":" + c.password
 	basic := "Basic " + base64.StdEncoding.EncodeToString([]byte(auth))
 	request.Header.Add("Proxy-Authorization", basic)
+
+	proxyURL, _ := url.Parse("http://" + c.host + ":" + strconv.Itoa(c.port))
+	client.Transport = &http.Transport{
+		Proxy:              http.ProxyURL(proxyURL),
+		TLSClientConfig:    &tls.Config{},
+		ProxyConnectHeader: request.Header,
+	}
 }
 
 func randomString(n int) string {
